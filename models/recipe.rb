@@ -8,7 +8,7 @@ class Recipe
         RECIPES.detect { |r| r.id == id.to_i }
     end
 
-    def initialize(name, difficulty = 1)
+    def initialize(name: '', difficulty: 1)
         @id = RECIPES.length + 1
         @valid = true
         @name = name

@@ -6,18 +6,24 @@
 # 5. destroy id
 
 require "./models/recipe"
+require "./views/recipes/index"
+require "./views/recipes/new"
+require "./views/recipes/show"
 
 class RecipesController
     def index
-        puts Recipe::RECIPES.inspect
+        recipes = Recipe::RECIPES
+        Views::Recipes.index(recipes)
     end
 
     def show(id)
         recipe = Recipe.find(id)
-        puts recipe.inspect
+        Views::Recipes.show recipe
     end
 
-    def new(params)
-        Recipe.new *params
+    def new
+        recipe = Recipe.new
+        Views::Recipes.new recipe
+        # recipe.save!
     end
 end
