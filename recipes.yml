@@ -1,0 +1,21 @@
+---
+- !ruby/object:Recipe
+  valid: true
+  name: Burnt toast
+  difficulty: 1
+  id: 1
+- !ruby/object:Recipe
+  valid: true
+  name: Toast
+  difficulty: 1
+  id: 2
+- !ruby/object:Recipe
+  valid: false
+  name: Toast
+  difficulty: '1'
+  id: 3
+- !ruby/object:Recipe
+  valid: false
+  name: Chocolate Cake
+  difficulty: '5'
+  id: 4

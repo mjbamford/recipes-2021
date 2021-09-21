@@ -1,19 +1,12 @@
-class Recipe
-    attr_reader :id, :name, :difficulty
+require_relative "./active_record"
 
-    RECIPES = [] # self == Recipe
-    # What about duplicate ids
-
-    def self.find(id)
-        RECIPES.detect { |r| r.id == id.to_i }
-    end
+class Recipe < ActiveRecord
+    attr_reader :name, :difficulty
 
     def initialize(name: '', difficulty: 1)
-        @id = RECIPES.length + 1
         @valid = true
         @name = name
         self.difficulty = difficulty
-        RECIPES << self
     end
 
     def difficulty=(difficulty)

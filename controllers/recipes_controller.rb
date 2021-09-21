@@ -9,21 +9,24 @@ require "./models/recipe"
 require "./views/recipes/index"
 require "./views/recipes/new"
 require "./views/recipes/show"
+require "./views/errors/record_not_found"
 
 class RecipesController
     def index
-        recipes = Recipe::RECIPES
+        recipes = Recipe.all
         Views::Recipes.index(recipes)
     end
 
     def show(id)
         recipe = Recipe.find(id)
         Views::Recipes.show recipe
+    rescue ActiveRecord::RecordNotFound => exception
+        Views::Recipes.record_not_found exception
     end
 
     def new
         recipe = Recipe.new
         Views::Recipes.new recipe
-        # recipe.save!
+        recipe.save
     end
 end
