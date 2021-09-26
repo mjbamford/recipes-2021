@@ -29,4 +29,7 @@ class RecipesController
         Views::Recipes.new recipe
         recipe.save
     end
+
+    def destroy
+    end
 end

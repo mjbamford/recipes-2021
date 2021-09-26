@@ -6,7 +6,7 @@ class ActiveRecord
     attr_reader :id
 
     def self.db
-        @db ||= (YAML.load(File.read('recipes.yml')) rescue [])
+        @db ||= YAML.load(File.read('recipes.yml')) rescue []
     end
 
     def self.all
@@ -20,9 +20,10 @@ class ActiveRecord
         record
     end
 
-    def self.save(record) # implicit block also provided
+    def self.save(record)
+        # self is the class object ActiveRecord
         new_id = self.db.length + 1
-        yield new_id
+        yield(new_id)
         self.db << record
         File.open('recipes.yml', 'w') do |file|
             file.write(self.db.to_yaml)
@@ -30,14 +31,26 @@ class ActiveRecord
     end
 
     def save
-        self.class.save(self) do |id|
-            @id = id
-        end
+        # self is the instance that wants to be saved
+        self.class.save(self) { |id| @id = id }
         self
     end
 
+    def self.delete(record)
+        return false if @id.nil? # guard
+
+        idx = db.index { |obj| obj.id == record.id }
+        db[idx] = nil
+        File.open('recipes.yml', 'w') do |file|
+            file.write(self.db.to_yaml)
+        end
+    end
+
     def delete
-        # Delete an instance from the db
-        puts "ActiveRecord#delete"
+        self.class.delete(self)
+    end
+
+    def to_s
+        "identify:#{@id}"
     end
 end

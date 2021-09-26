@@ -3,9 +3,13 @@ require_relative "./active_record"
 class Recipe < ActiveRecord
     attr_reader :name, :difficulty
 
-    def initialize(name: '', difficulty: 1)
-        @valid = true
-        @name = name
+    def self.[](index)
+        puts "Class method: #{index}"
+    end
+
+    def initialize(name: '', difficulty: 0)
+        @valid = false
+        self.name = name
         self.difficulty = difficulty
     end
 
@@ -13,7 +17,7 @@ class Recipe < ActiveRecord
         @difficulty = difficulty
         @valid = (1..5) === @difficulty
     end
-    
+
     def name=(name)
         @name = name
         @valid = !(@name.nil? || @name.empty?)
@@ -24,10 +28,10 @@ class Recipe < ActiveRecord
     end
 
     def [](index)
-        puts "Instance method: #{index}"
+        puts "This is great!"
     end
 
-    def self.[](index)
-        puts "Class method: #{index}"
+    def to_s
+        "#{super} name:#{@name} difficulty:#{@difficulty}"
     end
 end
