@@ -1,6 +1,9 @@
 require_relative "./active_record"
+require_relative "./log"
 
 class Recipe < ActiveRecord
+    include Log
+
     attr_reader :name, :difficulty
 
     def self.[](index)
@@ -25,6 +28,11 @@ class Recipe < ActiveRecord
 
     def valid?
         @valid
+    end
+
+    def save
+        super
+        log "Persisted Recipe:#{@id}"
     end
 
     def [](index)

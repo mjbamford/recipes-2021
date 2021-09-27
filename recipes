@@ -6,7 +6,7 @@ require './controllers/recipes_controller'
 recipes_controller = RecipesController.new
 
 begin
-    print "Enter a command (list, show, new, quit): "
+    print "Enter a command (list, show, new, delete, quit): "
     input = gets.chomp.downcase.strip.split(' ')
     command, param = input
 
@@ -17,5 +17,7 @@ begin
         recipes_controller.show param
     when 'new', 'n'
         recipes_controller.new
+    when 'delete', 'd'
+        recipes_controller.destroy param
     end
 end until ['quit', 'q'].include? command

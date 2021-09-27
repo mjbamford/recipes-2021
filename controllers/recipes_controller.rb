@@ -13,7 +13,7 @@ require "./views/errors/record_not_found"
 
 class RecipesController
     def index
-        recipes = Recipe.all
+        recipes = Recipe.all.compact
         Views::Recipes.index(recipes)
     end
 
@@ -30,6 +30,8 @@ class RecipesController
         recipe.save
     end
 
-    def destroy
+    def destroy(id)
+        recipe = Recipe.find(id)
+        recipe.destroy
     end
 end

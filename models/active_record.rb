@@ -6,7 +6,11 @@ class ActiveRecord
     attr_reader :id
 
     def self.db
-        @db ||= YAML.load(File.read('recipes.yml')) rescue []
+        @db ||= YAML.load(File.read(file_name)) rescue []
+    end
+
+    def self.file_name
+        "#{self.name.downcase}.yml"
     end
 
     def self.all
@@ -25,7 +29,7 @@ class ActiveRecord
         new_id = self.db.length + 1
         yield(new_id)
         self.db << record
-        File.open('recipes.yml', 'w') do |file|
+        File.open(file_name, 'w') do |file|
             file.write(self.db.to_yaml)
         end
     end
@@ -36,18 +40,20 @@ class ActiveRecord
         self
     end
 
-    def self.delete(record)
-        return false if @id.nil? # guard
+    def self.destroy(record)
+        # self = ActiveRecord
+        return false if record.nil? # guard
 
         idx = db.index { |obj| obj.id == record.id }
         db[idx] = nil
-        File.open('recipes.yml', 'w') do |file|
+        File.open(file_name, 'w') do |file|
             file.write(self.db.to_yaml)
         end
     end
 
-    def delete
-        self.class.delete(self)
+    def destroy
+        # self here is the instance
+        self.class.destroy(self)
     end
 
     def to_s
