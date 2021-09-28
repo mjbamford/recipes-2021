@@ -38,6 +38,7 @@ class Recipe < ActiveRecord
     def save
         super
         log "Persisted Recipe:#{@id}"
+        self
     end
 
     def [](index)

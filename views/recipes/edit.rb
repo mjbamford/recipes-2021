@@ -2,8 +2,8 @@ require_relative "./_form"
 
 module Views
     module Recipes
-        def self.new(recipe)
-            puts "New Recipe!"
+        def self.edit(recipe)
+            puts "Edit Recipe #{recipe.name}!"
             _form recipe
         end
     end

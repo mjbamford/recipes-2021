@@ -34,6 +34,24 @@ describe "Recipe" do
         end
     end
 
+    describe "#id" do
+        it "should be nil when first created" do
+            recipe = Recipe.new
+            expect(recipe.id).must_be_nil
+            recipe.save
+            expect(recipe.id).wont_be_nil
+        end
+
+        it "should not changed for a persisted recipe" do
+            recipe = Recipe.new
+            recipe.save
+            expected_id = recipe.id
+            expect(expected_id).wont_be_nil
+            recipe.save
+            expect(recipe.id).must_equal expected_id
+        end
+    end
+
     describe "#difficulty" do
         it "should be invalid" do
             recipe = Recipe.new
@@ -45,6 +63,13 @@ describe "Recipe" do
             recipe = Recipe.new
             recipe.difficulty = 666
             expect(recipe.errors).wont_be_empty
+        end
+
+        it "should be updateable" do
+            recipe = Recipe.new difficulty: 1
+            expect(recipe.difficulty).must_equal 1
+            recipe.difficulty = 4
+            expect(recipe.difficulty).must_equal 4
         end
     end
 

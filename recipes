@@ -17,6 +17,8 @@ begin
         recipes_controller.show param
     when 'new', 'n'
         recipes_controller.new
+    when 'edit', 'e'
+        recipes_controller.edit param
     when 'delete', 'd'
         recipes_controller.destroy param
     end

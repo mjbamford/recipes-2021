@@ -26,12 +26,14 @@ class ActiveRecord
 
     def self.save(record)
         # self is the class object ActiveRecord
-        new_id = self.db.length + 1
-        yield(new_id)
-        self.db << record
-        File.open(file_name, 'w') do |file|
-            file.write(self.db.to_yaml)
+        unless record.id
+            yield self.db.length + 1 
+            self.db << record
         end
+        File.open(file_name, 'w') do |file|
+            file.write(db.to_yaml)
+        end
+        record
     end
 
     def save
