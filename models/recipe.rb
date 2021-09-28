@@ -4,30 +4,35 @@ require_relative "./log"
 class Recipe < ActiveRecord
     include Log
 
-    attr_reader :name, :difficulty
+    DIFFICULTY_RANGE = 1..5
+    DIFFICULTY_ERROR_MESSAGE = \
+        "Difficulty must be between #{DIFFICULTY_RANGE.first} and #{DIFFICULTY_RANGE.last}"
+
+    attr_reader :name, :difficulty, :errors
 
     def self.[](index)
         puts "Class method: #{index}"
     end
 
     def initialize(name: '', difficulty: 0)
-        @valid = false
+        @errors = []
         self.name = name
         self.difficulty = difficulty
     end
 
     def difficulty=(difficulty)
         @difficulty = difficulty
-        @valid = (1..5) === @difficulty
+        @valid_difficulty = DIFFICULTY_RANGE === @difficulty
+        @errors << DIFFICULTY_ERROR_MESSAGE unless @valid_difficulty
     end
 
     def name=(name)
         @name = name
-        @valid = !(@name.nil? || @name.empty?)
+        @valid_name = !(@name.nil? || @name.empty?)
     end
 
     def valid?
-        @valid
+        @valid_name && @valid_difficulty
     end
 
     def save
